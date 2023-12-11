@@ -189,10 +189,11 @@ def on_send():
                 results = search_solr(preprocessed_query, 'http://35.245.97.133:8983/solr/IRF23P1', 'topic,title,revision_id,summary')
                 if 'response' in results and 'docs' in results['response'] and len(results['response']['docs']) > 0:
                     latest_doc = results['response']['docs'][0]
-                    data = results['response']['docs']
-                    resulting_file = write_to_file(data)
-                    vectordb=initialize_huggingface_components(resulting_file)
-                    response=get_openai_key_and_answer(user_input, vectordb)
+                    response = latest_doc.get('summary', 'Summary not available.')
+                    # data = results['response']['docs']
+                    # resulting_file = write_to_file(data)
+                    # vectordb=initialize_huggingface_components(resulting_file)
+                    # response=get_openai_key_and_answer(user_input, vectordb)
                     #response = latest_doc.get('summary', 'Summary not available.')
                     #update_chat_history(user_input, response)  
                     update_chat_history(user_input, response, end_continue_result, wiki_chat_result)
