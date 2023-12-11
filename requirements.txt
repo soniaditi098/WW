@@ -1,0 +1,9 @@
+transformers 
+torch
+streamlit
+nltk
+pyspellchecker
+openai
+langchain
+chromadb==0.4.5
+sentence_transformers
