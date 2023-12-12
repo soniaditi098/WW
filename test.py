@@ -1,16 +1,16 @@
 import streamlit as st
 import requests
-from transformers import AutoModelForSequenceClassification, AutoTokenizer, pipeline
+#from transformers import AutoModelForSequenceClassification, AutoTokenizer, pipeline
 import torch
-import csv
-from datetime import datetime
-import time  # Add this import at the beginning of your script
+#import csv
+# from datetime import datetime
+# import time  # Add this import at the beginning of your script
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 # from dotenv import load_dotenv
-import os
+#import os
 
 # load_dotenv(dotenv_path="ai.env")
 
@@ -99,10 +99,10 @@ def get_openai_key():
 
     return success, open_ai_key
 
-tokenizer = AutoTokenizer.from_pretrained("AyoubChLin/DistilBERT_ZeroShot")
-model = AutoModelForSequenceClassification.from_pretrained("AyoubChLin/DistilBERT_ZeroShot")
+# tokenizer = AutoTokenizer.from_pretrained("AyoubChLin/DistilBERT_ZeroShot")
+# model = AutoModelForSequenceClassification.from_pretrained("AyoubChLin/DistilBERT_ZeroShot")
 
-classifier = pipeline("zero-shot-classification", model=model, tokenizer=tokenizer)
+# classifier = pipeline("zero-shot-classification", model=model, tokenizer=tokenizer)
 topics = ["Health", "Environment", "Technology", "Economy", "Entertainment", "Sports", "Politics", "Education", "Travel", "Food"]
 
 from nltk.corpus import stopwords
@@ -233,12 +233,12 @@ def on_send():
 #             update_chat_history(user_input, response) 
         
         
-        log_chat_to_csv(
-            user_input, 
-            response, 
-            end_continue_result, 
-            wiki_chat_result
-        )
+        # log_chat_to_csv(
+        #     user_input, 
+        #     response, 
+        #     end_continue_result, 
+        #     wiki_chat_result
+        # )
 
 
         #update_chat_history(user_input, response)
@@ -277,7 +277,7 @@ def log_chat_to_csv(user_input, bot_response, end_continue_result, wiki_chat_res
 def update_chat_history(user_input, response, end_continue_result, wiki_chat_result):
     new_chat_history = st.session_state.chat_history + [('USER', user_input), ('WW', response)]
     st.session_state.chat_history = new_chat_history
-    log_chat_to_csv(user_input, response, end_continue_result, wiki_chat_result)
+    #log_chat_to_csv(user_input, response, end_continue_result, wiki_chat_result)
 
 
 def main():
