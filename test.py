@@ -5,7 +5,16 @@ import torch
 import csv
 from datetime import datetime
 import time  # Add this import at the beginning of your script
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
+# from dotenv import load_dotenv
+import os
+
+# load_dotenv(dotenv_path="ai.env")
+
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 import os
 import requests
@@ -55,10 +64,12 @@ def initialize_huggingface_components(filename, persistent_directory='./chroma_d
         return vectordb
     
 def get_openai_key_and_answer(query, vectordb):
-    success, open_ai_key = get_openai_key()
+    # success, open_ai_key = get_openai_key()
 
-    if success:
-        llm = OpenAI(openai_api_key=open_ai_key)
+    # if success:
+    #     llm = OpenAI(openai_api_key=open_ai_key)
+    if openai_api_key:
+        llm = OpenAI(openai_api_key=openai_api_key)
 
         new_line = '\n'
         template = f"Use the following pieces of context to answer truthfully.{new_line}If the context does not provide the truthful answer, make the answer as truthful as possible.{new_line}Use 15 words maximum. Keep the response as concise as possible.{new_line}{{context}}{new_line}Question: {{question}}{new_line}Response: "
@@ -190,10 +201,10 @@ def on_send():
                 if 'response' in results and 'docs' in results['response'] and len(results['response']['docs']) > 0:
                     latest_doc = results['response']['docs'][0]
                     response = latest_doc.get('summary', 'Summary not available.')
-                    # data = results['response']['docs']
-                    # resulting_file = write_to_file(data)
-                    # vectordb=initialize_huggingface_components(resulting_file)
-                    # response=get_openai_key_and_answer(user_input, vectordb)
+                    data = results['response']['docs']
+                    resulting_file = write_to_file(data)
+                    vectordb=initialize_huggingface_components(resulting_file)
+                    response=get_openai_key_and_answer(user_input, vectordb)
                     #response = latest_doc.get('summary', 'Summary not available.')
                     #update_chat_history(user_input, response)  
                     update_chat_history(user_input, response, end_continue_result, wiki_chat_result)
