@@ -33,7 +33,8 @@ def get_huggingface_token():
         return True, hf_token
     except FileNotFoundError:
         return False, ""
-
+        
+@st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def initialize_huggingface_components(filename, persistent_directory='./chroma_db'):
     success, hf_token = get_huggingface_token()
 
@@ -200,7 +201,7 @@ def on_send():
                 results = search_solr(preprocessed_query, 'http://35.245.97.133:8983/solr/IRF23P1', 'topic,title,revision_id,summary')
                 if 'response' in results and 'docs' in results['response'] and len(results['response']['docs']) > 0:
                     latest_doc = results['response']['docs'][0]
-                    response = latest_doc.get('summary', 'Summary not available.')
+                    #response = latest_doc.get('summary', 'Summary not available.')
                     data = results['response']['docs']
                     resulting_file = write_to_file(data)
                     vectordb=initialize_huggingface_components(resulting_file)
