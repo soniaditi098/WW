@@ -10,13 +10,13 @@ import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 # from dotenv import load_dotenv
-#import os
+import os
 
 # load_dotenv(dotenv_path="ai.env")
 
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
-import os
+#import os
 import requests
 from langchain.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter, CharacterTextSplitter, TokenTextSplitter
